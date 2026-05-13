@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Suggested Matches</h2>
+
+{% if matches %}
+  <table class="table mt-3">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Skills</th>
+        <th>Career Interests</th>
+        <th>Location</th>
+        <th>Match Score</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in matches %}
+        <tr>
+          <td>{{ m.user.name }}</td>
+          <td>{{ m.user.role|title }}</td>
+          <td>{{ m.user.skills }}</td>
+          <td>{{ m.user.career_interests or '-' }}</td>
+          <td>
+            {{ m.user.location_state or '' }}
+            {% if m.user.location_state and m.user.location_country %}, {% endif %}
+            {{ m.user.location_country or '' }}
+          </td>
+          <td>{{ m.score }}</td>
+          <td>
+            <a href="{{ url_for('chat', user_id=m.user.id) }}" class="btn btn-sm btn-outline-secondary">Chat</a>
+            <form action="{{ url_for('send_connection_request', user_id=m.user.id) }}" method="post" style="display:inline;">
+              <button type="submit" class="btn btn-sm btn-outline-primary">Connect</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% else %}
+  <p>No matches found yet. Try adding more details to your profile.</p>
+{% endif %}
+{% endblock %}

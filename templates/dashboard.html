@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+{% if g.user %}
+  <section class="hero-card interactive-panel reveal mb-4">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+      <div>
+        <h1 class="mb-2">Welcome back, {{ g.user.name }}.</h1>
+        <p class="mb-0 text-muted">Build meaningful alumni-student relationships, discover mentors, and stay active in your network.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a class="btn btn-primary" href="{{ url_for('matches_page') }}">Find Matches</a>
+        <a class="btn btn-outline-light" href="{{ url_for('events_list') }}">Explore Events</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="dashboardStats" class="row g-3 mb-4">
+    <div class="col-md-3 reveal">
+      <div class="card p-3 h-100">
+        <div class="text-muted">Connections</div>
+        <div class="stat-number" data-stat="connections">0</div>
+      </div>
+    </div>
+    <div class="col-md-3 reveal">
+      <div class="card p-3 h-100">
+        <div class="text-muted">Mentorships</div>
+        <div class="stat-number" data-stat="mentorships">0</div>
+      </div>
+    </div>
+    <div class="col-md-3 reveal">
+      <div class="card p-3 h-100">
+        <div class="text-muted">Unread Messages</div>
+        <div class="stat-number" data-stat="unread_messages">0</div>
+      </div>
+    </div>
+    <div class="col-md-3 reveal">
+      <div class="card p-3 h-100">
+        <div class="text-muted">Upcoming Events</div>
+        <div class="stat-number" data-stat="upcoming_events">0</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card p-3 reveal">
+    <h3 class="mb-3">Upcoming Events</h3>
+    <div id="upcomingEvents" class="list-group"></div>
+  </section>
+{% else %}
+  <section class="hero-card interactive-panel reveal mt-4">
+    <h1 class="mb-2">A Vibrant Alumni-Student Network</h1>
+    <p class="lead text-muted">Connect with alumni, find guidance, and discover opportunities through one collaborative platform.</p>
+    <div class="d-flex gap-2 mt-3">
+      <a href="{{ url_for('signup') }}" class="btn btn-primary">Create Account</a>
+      <a href="{{ url_for('login') }}" class="btn btn-outline-light">Login</a>
+    </div>
+  </section>
+{% endif %}
+{% endblock %}

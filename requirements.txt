@@ -1,0 +1,20 @@
+# Backend direct deps
+flask==3.1.2
+flask_sqlalchemy==3.1.1
+flask_migrate==4.1.0
+sqlalchemy==2.0.44
+werkzeug==3.1.4
+
+# Environment & utilities
+python-dotenv==1.2.1
+requests==2.32.5
+python-dateutil==2.9.0.post0
+
+# Optional ML deps (for TF-IDF + KNN matching when available)
+# The app falls back to lightweight skill-overlap matching if these are not installed.
+# Install manually in a compatible Python environment if needed.
+# scikit-learn
+# numpy
+# scipy
+# joblib
+# threadpoolctl

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Events</h2>
+    <div>
+      <a href="{{ url_for('events_new') }}" class="btn btn-primary">Create Event</a>
+      {% if is_admin %}
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">Admin Dashboard</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if events %}
+    <div class="list-group">
+      {% for e in events %}
+        <div class="list-group-item mb-2">
+          <div class="d-flex justify-content-between align-items-start">
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="mb-0">{{ e.title }}</h5>
+                <small class="text-muted">{{ e.start_time.strftime('%Y-%m-%d %H:%M') }}</small>
+              </div>
+              {% if e.description %}
+                <p class="mb-2">{{ e.description }}</p>
+              {% endif %}
+              <p class="mb-2">
+                <small class="text-muted">
+                  <strong>Location:</strong> {{ e.location or 'Online' }} • 
+                  <strong>Source:</strong> {{ e.source or 'manual' }}
+                  {% if e.is_online %}
+                    <span class="badge bg-info">Online</span>
+                  {% endif %}
+                  {% if e.is_free %}
+                    <span class="badge bg-success">Free</span>
+                  {% endif %}
+                </small>
+              </p>
+              {% if e.host %}
+                <p class="mb-2"><small class="text-muted">Hosted by {{ e.host.name }}</small></p>
+              {% endif %}
+            </div>
+          </div>
+          
+          <div class="mt-2 d-flex gap-2 flex-wrap">
+            {% if e.external_link %}
+              <a href="{{ e.external_link }}" target="_blank" class="btn btn-sm btn-outline-primary">Open on Eventbrite</a>
+            {% endif %}
+            <form action="{{ url_for('event_rsvp', event_id=e.id) }}" method="post" style="display:inline;">
+              <button class="btn btn-sm btn-success">RSVP / Join</button>
+            </form>
+            
+            {% if is_admin or (e.host_id and e.host_id == g.user.id) %}
+              <a href="{{ url_for('event_edit', event_id=e.id) }}" class="btn btn-sm btn-outline-warning">Edit</a>
+              <form action="{{ url_for('event_delete', event_id=e.id) }}" method="post" style="display:inline;"
+                    onsubmit="return confirm('Are you sure you want to delete this event?');">
+                <button class="btn btn-sm btn-outline-danger">Delete</button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-secondary">No upcoming events yet.</div>
+  {% endif %}
+</div>
+{% endblock %}

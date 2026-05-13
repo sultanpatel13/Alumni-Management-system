@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Create Event</h2>
+  <form method="post">
+    <div class="mb-2">
+      <label class="form-label">Title</label>
+      <input name="title" class="form-control" required>
+    </div>
+    <div class="mb-2">
+      <label class="form-label">Start time (YYYY-MM-DD HH:MM)</label>
+      <input name="start_time" class="form-control" placeholder="2025-12-01 15:00" required>
+    </div>
+    <div class="mb-2">
+      <label class="form-label">End time (optional)</label>
+      <input name="end_time" class="form-control" placeholder="2025-12-01 16:00">
+    </div>
+    <div class="mb-2">
+      <label class="form-label">Location / Link</label>
+      <input name="location" class="form-control" value="Online">
+    </div>
+    <div class="mb-2">
+      <label class="form-label">Description</label>
+      <textarea name="description" class="form-control" rows="4"></textarea>
+    </div>
+    <div class="form-check mb-3">
+      <input name="is_online" class="form-check-input" type="checkbox" checked>
+      <label class="form-check-label">Online</label>
+    </div>
+    <div class="form-check mb-3">
+      <input name="is_free" class="form-check-input" type="checkbox" checked>
+      <label class="form-check-label">Free</label>
+    </div>
+    <button class="btn btn-primary">Create</button>
+    <a href="{{ url_for('events_list') }}" class="btn btn-link">Back</a>
+  </form>
+</div>
+{% endblock %}

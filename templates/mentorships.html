@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My Mentorship Relationships</h2>
+
+{% if mentorships %}
+  <ul class="list-group mt-3">
+    {% for c in mentorships %}
+      {% if c.requester_id == g.user.id %}
+        {% set other = c.receiver %}
+      {% else %}
+        {% set other = c.requester %}
+      {% endif %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{ other.name }}</strong>
+          <span class="badge bg-success ms-1">Mentorship</span><br>
+          <small>{{ other.role|title }} · {{ other.skills }}</small><br>
+          {% if other.current_company %}
+            <small>{{ other.current_company }}</small><br>
+          {% endif %}
+          {% if other.location_state or other.location_country %}
+            <small class="text-muted">
+              {{ other.location_state or '' }} {{ other.location_country or '' }}
+            </small>
+          {% endif %}
+        </div>
+        <div>
+          <a href="{{ url_for('chat', user_id=other.id) }}" class="btn btn-sm btn-primary">Open Chat</a>
+          <a href="{{ url_for('connections_list') }}" class="btn btn-sm btn-outline-secondary">View Connection</a>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="mt-3">You haven't tagged any connections as mentorships yet. Go to your
+    <a href="{{ url_for('connections_list') }}">Connections</a> and mark one as a mentorship.</p>
+{% endif %}
+
+{% endblock %}

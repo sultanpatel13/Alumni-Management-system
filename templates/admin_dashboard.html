@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+
+{# React root: only show when user is admin. React will mount into this div if present. #}
+{% block react_root %}
+  {% if g.user and g.user.is_admin %}
+    <div id="admin-dashboard-root" style="min-height: calc(100vh - 80px); width:100%;"></div>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<div class="row mt-3">
+  <div class="col-md-3">
+    <div class="card">
+      <div class="card-body">
+        <h5>Total Users</h5>
+        <p class="display-6">{{ total_users }}</p>
+        <small>Active: {{ active_users }}, Suspended: {{ suspended_users }}</small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card">
+      <div class="card-body">
+        <h5>Connections</h5>
+        <p class="display-6">{{ total_connections }}</p>
+        <small>Accepted: {{ accepted_connections }}, Pending: {{ pending_connections }}</small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card">
+      <div class="card-body">
+        <h5>Messages</h5>
+        <p class="display-6">{{ total_messages }}</p>
+        <small>Unread: {{ unread_messages }}</small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card">
+      <div class="card-body">
+        <h5>Mentorship</h5>
+        {% if mentoring_summary %}
+          <ul class="list-unstyled mb-0">
+            {% for key, value in mentoring_summary.items() %}
+              <li><strong>{{ key }}:</strong> {{ value }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No data yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="my-4">
+
+<h4>Users</h4>
+<div class="table-responsive">
+  <table class="table table-sm table-striped align-middle">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name / Email</th>
+        <th>Role</th>
+        <th>Industry</th>
+        <th>Location</th>
+        <th>Admin</th>
+        <th>Suspended</th>
+        <th>Mentoring</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in users %}
+        <tr>
+          <td>{{ u.id }}</td>
+          <td>
+            <strong>{{ u.name }}</strong><br>
+            <small>{{ u.email }}</small>
+          </td>
+
+          {# --- ROLE + STATUS BADGES --- #}
+          <td>
+            {{ u.role|title }}
+            {% if u.role == 'alumni' %}
+              {% if u.is_alumni_approved %}
+                <span class="badge bg-success ms-1">Approved</span>
+              {% else %}
+                <span class="badge bg-warning text-dark ms-1">Pending</span>
+              {% endif %}
+            {% elif u.role == 'student' %}
+              {% if u.is_student_verified %}
+                <span class="badge bg-success ms-1">Verified</span>
+              {% else %}
+                <span class="badge bg-warning text-dark ms-1">Pending</span>
+              {% endif %}
+            {% endif %}
+          </td>
+
+          <td>{{ u.industry or '-' }}</td>
+          <td>
+            {{ u.location_city or '' }}
+            {% if u.location_city and (u.location_state or u.location_country) %}, {% endif %}
+            {{ u.location_state or '' }}
+            {% if (u.location_city or u.location_state) and u.location_country %}, {% endif %}
+            {{ u.location_country or '' }}
+          </td>
+          <td>{{ 'Yes' if u.is_admin else 'No' }}</td>
+          <td>{{ 'Yes' if u.is_suspended else 'No' }}</td>
+          <td>{{ u.mentoring_preference or '-' }}</td>
+
+          {# --- ACTIONS COLUMN --- #}
+          <td>
+            {% if not u.is_admin %}
+
+              {# APPROVE BUTTON FOR PENDING ALUMNI #}
+              {% if u.role == 'alumni' and not u.is_alumni_approved %}
+                <form action="{{ url_for('admin_approve_alumni', user_id=u.id) }}"
+                      method="post" style="display:inline;">
+                  <button class="btn btn-sm btn-success">Approve</button>
+                </form>
+              {% endif %}
+
+              {# OPTIONAL: VERIFY BUTTON FOR PENDING STUDENTS #}
+              {% if u.role == 'student' and not u.is_student_verified %}
+                <form action="{{ url_for('admin_verify_student', user_id=u.id) }}"
+                      method="post" style="display:inline;">
+                  <button class="btn btn-sm btn-primary">Verify</button>
+                </form>
+              {% endif %}
+
+              {# EXISTING SUSPEND / UNSUSPEND BUTTONS #}
+              {% if not u.is_suspended %}
+                <form action="{{ url_for('admin_suspend_user', user_id=u.id) }}"
+                      method="post" style="display:inline;">
+                  <button class="btn btn-sm btn-warning">Suspend</button>
+                </form>
+              {% else %}
+                <form action="{{ url_for('admin_unsuspend_user', user_id=u.id) }}"
+                      method="post" style="display:inline;">
+                  <button class="btn btn-sm btn-success">Unsuspend</button>
+                </form>
+              {% endif %}
+
+              {# EXISTING DELETE BUTTON #}
+              <form action="{{ url_for('admin_delete_user', user_id=u.id) }}"
+                    method="post" style="display:inline;"
+                    onsubmit="return confirm('Delete this user and all related data?');">
+                <button class="btn btn-sm btn-outline-danger">Delete</button>
+              </form>
+
+            {% else %}
+              <span class="text-muted">Admin</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<hr class="my-4">
+
+<h4>Recent Connections</h4>
+<div class="table-responsive">
+  <table class="table table-sm table-striped align-middle">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Requester</th>
+        <th>Receiver</th>
+        <th>Status</th>
+        <th>Mentorship</th>
+        <th>Created</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in connections %}
+        <tr>
+          <td>{{ c.id }}</td>
+          <td>{{ c.requester.name }} ({{ c.requester_id }})</td>
+          <td>{{ c.receiver.name }} ({{ c.receiver_id }})</td>
+          <td>{{ c.status }}</td>
+          <td>{{ 'Yes' if c.is_mentorship else 'No' }}</td>
+          <td>{{ c.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>
+            <form action="{{ url_for('admin_delete_connection', connection_id=c.id) }}" method="post" style="display:inline;"
+                  onsubmit="return confirm('Delete this connection?');">
+              <button class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<hr class="my-4">
+
+<h4>Recent Messages</h4>
+<div class="table-responsive">
+  <table class="table table-sm table-striped align-middle">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Sender</th>
+        <th>Receiver</th>
+        <th>Created</th>
+        <th>Content (preview)</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in messages %}
+        <tr>
+          <td>{{ m.id }}</td>
+          <td>{{ m.sender.name }} ({{ m.sender_id }})</td>
+          <td>{{ m.receiver.name }} ({{ m.receiver_id }})</td>
+          <td>{{ m.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>{{ m.content[:80] }}{% if m.content|length > 80 %}...{% endif %}</td>
+          <td>
+            <form action="{{ url_for('admin_delete_message', message_id=m.id) }}" method="post" style="display:inline;"
+                  onsubmit="return confirm('Delete this message?');">
+              <button class="btn btn-sm btn-outline-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+<!-- Admin: Events quick actions -->
+<div class="row mt-3">
+  <div class="col-md-12">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h4>Events</h4>
+      <form action="{{ url_for('admin_fetch_events') }}" method="post" style="display:inline;">
+        <button class="btn btn-sm btn-outline-primary">Fetch Events (External)</button>
+      </form>
+      <a href="{{ url_for('events_list') }}" class="btn btn-sm btn-primary ms-2">View Events</a>
+    </div>
+    {% set upcoming = events|default([]) %}
+    {# We will pass 'events' into template if desired; but to keep changes minimal we can instead show summary #}
+    <div class="card">
+      <div class="card-body">
+        <p class="mb-0 text-muted">Use "Fetch Events" to pull public online events. Admin fetch will create external event records.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Connections</h2>
+
+<h4 class="mt-4">Incoming Requests</h4>
+{% if incoming %}
+  <ul class="list-group mb-4">
+    {% for c in incoming %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span>
+          <strong>{{ c.requester.name }}</strong>
+          ({{ c.requester.role|title }})
+        </span>
+        <span>
+          <form action="{{ url_for('respond_connection_request', connection_id=c.id, action='accept') }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-sm btn-success">Accept</button>
+          </form>
+          <form action="{{ url_for('respond_connection_request', connection_id=c.id, action='decline') }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-sm btn-outline-secondary">Decline</button>
+          </form>
+        </span>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No incoming requests.</p>
+{% endif %}
+
+<h4 class="mt-4">Outgoing Requests</h4>
+{% if outgoing %}
+  <ul class="list-group mb-4">
+    {% for c in outgoing %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span>
+          <strong>{{ c.receiver.name }}</strong> ({{ c.receiver.role|title }})
+        </span>
+        <span class="badge bg-warning text-dark">Pending</span>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No outgoing requests.</p>
+{% endif %}
+
+<h4 class="mt-4">Connected</h4>
+{% if accepted %}
+  <ul class="list-group mb-4">
+    {% for c in accepted %}
+      {% if c.requester_id == g.user.id %}
+        {% set other = c.receiver %}
+      {% else %}
+        {% set other = c.requester %}
+      {% endif %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{ other.name }}</strong>
+          {% if c.is_mentorship %}
+            <span class="badge bg-success ms-1">Mentorship</span>
+          {% endif %}
+          <br>
+          <small>{{ other.role|title }} · {{ other.skills }}</small><br>
+          {% if other.location_state or other.location_country %}
+            <small class="text-muted">
+              {{ other.location_state or '' }} {{ other.location_country or '' }}
+            </small>
+          {% endif %}
+        </div>
+        <div class="text-end">
+          <a href="{{ url_for('chat', user_id=other.id) }}" class="btn btn-sm btn-primary mb-1">Message</a>
+          <form action="{{ url_for('toggle_mentorship', connection_id=c.id) }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-sm btn-outline-success mb-1">
+              {% if c.is_mentorship %}Unmark Mentorship{% else %}Mark as Mentorship{% endif %}
+            </button>
+          </form>
+          <form action="{{ url_for('block_user', user_id=other.id) }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-sm btn-outline-danger">Block</button>
+          </form>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>You have no accepted connections yet.</p>
+{% endif %}
+
+<h4 class="mt-4">Blocked Users</h4>
+{% if blocked %}
+  <ul class="list-group mb-4">
+    {% for b in blocked %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span><strong>{{ b.blocked.name }}</strong></span>
+        <form action="{{ url_for('unblock_user', user_id=b.blocked_id) }}" method="post" style="display:inline;">
+          <button type="submit" class="btn btn-sm btn-outline-secondary">Unblock</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>You have not blocked any users.</p>
+{% endif %}
+
+{% endblock %}

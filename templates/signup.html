@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container" style="max-width:900px;">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Create an account</h1>
+      <p class="page-subtitle">Join the alumni-student network — connect, mentor and discover opportunities.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Sign Up</div>
+        <div class="card-subtitle">Fill in the details below to create your profile</div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <form method="post" class="mt-1" novalidate>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-3">
+              <label class="form-label" for="name">Name *</label>
+              <input id="name" type="text" name="name" class="form-control" required />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group mb-3">
+              <label class="form-label" for="email">Email *</label>
+              <input id="email" type="email" name="email" class="form-control" required />
+              <div class="form-text text-muted">Students should use institutional email (e.g. @techdept.edu).</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-3">
+              <label class="form-label" for="password">Password *</label>
+              <input id="password" type="password" name="password" class="form-control" required minlength="8" />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group mb-3">
+              <label class="form-label" for="confirm_password">Confirm Password *</label>
+              <input id="confirm_password" type="password" name="confirm_password" class="form-control" required minlength="8" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group mb-3">
+              <label class="form-label" for="role">Role *</label>
+              <select id="role" name="role" class="form-select" required>
+                <option value="">-- Select Role --</option>
+                <option value="student">Student</option>
+                <option value="alumni">Alumni</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="form-group mb-3">
+              <label class="form-label" for="skills">Skills (comma-separated) *</label>
+              <input id="skills" type="text" name="skills" class="form-control" placeholder="Python, Data Science, Web Dev" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-3">
+              <label class="form-label" for="career_interests">Career Interests (optional)</label>
+              <input id="career_interests" type="text" name="career_interests" class="form-control" placeholder="Data Science, Backend, ML" />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group mb-3">
+              <label class="form-label" for="industry">Industry (optional)</label>
+              <input id="industry" type="text" name="industry" class="form-control" placeholder="Software, FinTech" />
+            </div>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group mb-3">
+              <label class="form-label" for="years_experience">Years of Experience (optional)</label>
+              <input id="years_experience" type="number" name="years_experience" class="form-control" min="0" />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group mb-3">
+              <label class="form-label" for="current_company">Current Company (optional)</label>
+              <input id="current_company" type="text" name="current_company" class="form-control" />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group mb-3">
+              <label class="form-label" for="education">Education (optional)</label>
+              <input id="education" type="text" name="education" class="form-control" placeholder="B.Tech CSE, 2025" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label" for="bio">Bio (optional)</label>
+          <textarea id="bio" name="bio" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group mb-3">
+              <label class="form-label" for="location_city">City (optional)</label>
+              <input id="location_city" type="text" name="location_city" class="form-control" />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group mb-3">
+              <label class="form-label" for="location_state">State (optional)</label>
+              <input id="location_state" type="text" name="location_state" class="form-control" />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group mb-3">
+              <label class="form-label" for="location_country">Country (optional)</label>
+              <input id="location_country" type="text" name="location_country" class="form-control" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label" for="mentoring_preference">Mentoring Preference (optional)</label>
+          <select id="mentoring_preference" name="mentoring_preference" class="form-select">
+            <option value="">-- Select --</option>
+            <option value="yes">Yes, I want to mentor</option>
+            <option value="no">Not right now</option>
+            <option value="maybe">Maybe / Depends</option>
+          </select>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <button type="submit" class="btn btn-primary">Create Account</button>
+          <a href="{{ url_for('login') }}" class="btn btn-link">Already have an account? Login</a>
+        </div>
+
+        <hr style="margin-top:1rem; margin-bottom:1rem;" />
+
+        <p class="text-muted" style="margin-bottom:0.5rem;">Or use mock Google sign-in:</p>
+        <a href="{{ url_for('login_google') }}" class="btn btn-outline-danger">Sign in with Google (Mock)</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

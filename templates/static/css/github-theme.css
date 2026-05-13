@@ -1,0 +1,782 @@
+/* ------------------ CSS: Apple-inspired clean theme ------------------ */
+
+:root {
+    --bg-body: #f5f5f7;
+    --bg-card: #ffffff;
+    --bg-subtle: #f5f5f7;
+    --bg-navbar: rgba(245, 245, 247, 0.85);
+    --bg-input: #ffffff;
+
+    --border-subtle: #d2d2d7;
+    --border-strong: #1d1d1f;
+
+    --text-main: #1d1d1f;
+    --text-muted: #6e6e73;
+    --text-inverse: #ffffff;
+    --text-link: #0071e3;
+    --text-link-hover: #005bb5;
+
+    --accent-blue: #0071e3;
+    --accent-blue-soft: rgba(0, 113, 227, 0.12);
+    --accent-green: #00b894;
+    --accent-red: #ff3b30;
+    --accent-yellow: #ffd60a;
+
+    --radius-xs: 6px;
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+
+    --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.08);
+    --shadow-subtle: 0 8px 24px rgba(0, 0, 0, 0.04);
+
+    --transition-fast: 0.18s ease-out;
+    --transition-medium: 0.25s ease-out;
+
+    --font-main: -apple-system, BlinkMacSystemFont, system-ui, "SF Pro Text",
+                 "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: var(--font-main);
+    color: var(--text-main);
+    background: radial-gradient(circle at top, #ffffff 0, #f5f5f7 55%, #e5e5ea 100%);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ------------------ Links ------------------ */
+
+a {
+    color: var(--text-link);
+    text-decoration: none;
+    transition: color var(--transition-fast), opacity var(--transition-fast);
+}
+
+a:hover {
+    color: var(--text-link-hover);
+    opacity: 0.9;
+}
+
+/* ------------------ Navbar ------------------ */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 2.5rem;
+    background-color: var(--bg-navbar);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border-bottom: 1px solid rgba(210, 210, 215, 0.7);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+    color: var(--text-main);
+}
+
+.navbar-brand-logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    background: linear-gradient(145deg, #ffffff, #e8e8ed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.navbar-nav {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.nav-link {
+    font-size: 0.85rem;
+    color: #6e6e73;
+    padding: 0.25rem 0.85rem;
+    border-radius: 999px;
+    transition: background-color var(--transition-fast),
+                color var(--transition-fast),
+                transform var(--transition-fast);
+}
+
+.nav-link:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+    color: var(--text-main);
+    transform: translateY(-0.5px);
+}
+
+.nav-link.active {
+    background-color: #1d1d1f;
+    color: #ffffff;
+}
+
+/* ------------------ Layout helpers ------------------ */
+
+.container {
+    max-width: 1120px;
+    margin: 1.75rem auto 3rem;
+    padding: 0 1.5rem;
+}
+
+.page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(210, 210, 215, 0.7);
+}
+
+.page-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+    margin-top: 0.25rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+/* ------------------ Cards ------------------ */
+
+.card {
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(210, 210, 215, 0.8);
+    box-shadow: var(--shadow-subtle);
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    transition: transform var(--transition-medium),
+                box-shadow var(--transition-medium),
+                border-color var(--transition-medium),
+                background-color var(--transition-medium);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-soft);
+    border-color: rgba(0, 0, 0, 0.06);
+    background-color: #ffffff;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+}
+
+.card-subtitle {
+    font-size: 0.86rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+}
+
+.card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.card-meta-item {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* ------------------ Badges ------------------ */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.18rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    border: 1px solid transparent;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.badge-tag {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.04);
+    color: #6e6e73;
+}
+
+.badge-pill {
+    background: var(--accent-blue-soft);
+    border-color: rgba(0, 113, 227, 0.35);
+    color: var(--text-link);
+}
+
+.badge-success {
+    background: rgba(0, 184, 148, 0.12);
+    border-color: rgba(0, 184, 148, 0.28);
+    color: #00806b;
+}
+
+.badge-warning {
+    background: rgba(255, 214, 10, 0.14);
+    border-color: rgba(255, 214, 10, 0.4);
+    color: #6e5b00;
+}
+
+/* ------------------ Buttons ------------------ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    font-size: 0.86rem;
+    border-radius: 999px;
+    padding: 0.38rem 0.95rem;
+    border: 1px solid rgba(210, 210, 215, 0.9);
+    background-color: rgba(255, 255, 255, 0.8);
+    color: var(--text-main);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color var(--transition-fast),
+                border-color var(--transition-fast),
+                transform var(--transition-fast),
+                box-shadow var(--transition-fast),
+                color var(--transition-fast);
+}
+
+.btn:hover {
+    background-color: #ffffff;
+    border-color: rgba(0, 0, 0, 0.14);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.btn-primary {
+    background: #0071e3;
+    border-color: #0071e3;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: #005bb5;
+    border-color: #005bb5;
+}
+
+.btn-success {
+    background-color: var(--accent-green);
+    border-color: #00a884;
+    color: #ffffff;
+}
+
+.btn-success:hover {
+    background-color: #009973;
+}
+
+.btn-danger {
+    background-color: var(--accent-red);
+    border-color: #d62222;
+    color: #ffffff;
+}
+
+.btn-danger:hover {
+    background-color: #d62222;
+}
+
+.btn-sm {
+    padding: 0.28rem 0.7rem;
+    font-size: 0.8rem;
+}
+
+/* ------------------ Forms ------------------ */
+
+.form-group {
+    margin-bottom: 0.85rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.15rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.form-control,
+.form-select,
+textarea {
+    width: 100%;
+    padding: 0.48rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid rgba(210, 210, 215, 0.9);
+    background-color: var(--bg-input);
+    font-size: 0.9rem;
+    transition: border-color var(--transition-fast),
+                box-shadow var(--transition-fast),
+                background-color var(--transition-fast),
+                transform var(--transition-fast);
+}
+
+textarea {
+    border-radius: var(--radius-md);
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #0071e3;
+    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.25);
+    background-color: #ffffff;
+}
+
+.form-control[type="range"] {
+    padding: 0;
+    border-radius: 999px;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+/* Range track & thumb for WebKit */
+.form-control[type="range"]::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #0071e3, #8e8e93);
+}
+
+.form-control[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 2px solid #0071e3;
+    margin-top: -5px;
+    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.24);
+}
+
+/* Firefox */
+.form-control[type="range"]::-moz-range-track {
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #0071e3, #8e8e93);
+}
+
+.form-control[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 2px solid #0071e3;
+    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.24);
+}
+
+.form-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+/* ------------------ Alerts (for Flask flash messages) ------------------ */
+
+.alert {
+    border-radius: var(--radius-md);
+    padding: 0.6rem 0.9rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    border: 1px solid transparent;
+}
+
+.alert-success {
+    background-color: rgba(0, 184, 148, 0.08);
+    border-color: rgba(0, 184, 148, 0.35);
+    color: #006b55;
+}
+
+.alert-danger {
+    background-color: rgba(255, 59, 48, 0.08);
+    border-color: rgba(255, 59, 48, 0.4);
+    color: #b10a00;
+}
+
+.alert-warning {
+    background-color: rgba(255, 214, 10, 0.08);
+    border-color: rgba(255, 214, 10, 0.4);
+    color: #6e5b00;
+}
+
+.alert-info {
+    background-color: rgba(0, 113, 227, 0.08);
+    border-color: rgba(0, 113, 227, 0.4);
+    color: #004a99;
+}
+
+/* ------------------ Tables (for admin dashboard) ------------------ */
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.table th,
+.table td {
+    padding: 0.55rem 0.6rem;
+    border-bottom: 1px solid rgba(210, 210, 215, 0.8);
+}
+
+.table thead th {
+    text-align: left;
+    background-color: rgba(245, 245, 247, 0.9);
+    font-weight: 600;
+}
+
+.table tr:hover td {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* ------------------ Matches & list layouts ------------------ */
+
+.matches-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: flex-end;
+    margin-bottom: 0.75rem;
+}
+
+.matches-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+.match-score-pill {
+    font-size: 0.78rem;
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(0, 113, 227, 0.08), rgba(0, 0, 0, 0.03));
+    border: 1px solid rgba(0, 113, 227, 0.28);
+    color: var(--text-link);
+}
+
+.match-empty {
+    padding: 1.2rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Skill tags */
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.45rem;
+}
+
+.skill-tag {
+    font-size: 0.75rem;
+    padding: 0.22rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(210, 210, 215, 0.9);
+    color: #3a3a3c;
+}
+
+/* ------------------ Chat layout ------------------ */
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 65vh;
+}
+
+.chat-messages {
+    padding: 0.9rem;
+    background-color: rgba(255, 255, 255, 0.96);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(210, 210, 215, 0.8);
+    box-shadow: var(--shadow-subtle);
+    overflow-y: auto;
+}
+
+.chat-message {
+    margin-bottom: 0.55rem;
+    padding: 0.45rem 0.7rem;
+    border-radius: 18px;
+    max-width: 72%;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.chat-message.me {
+    margin-left: auto;
+    background: linear-gradient(135deg, #0a84ff, #0071e3);
+    color: #ffffff;
+}
+
+.chat-message.them {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--text-main);
+}
+
+.chat-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+}
+
+/* ------------------ Small utilities ------------------ */
+
+.text-muted {
+    color: var(--text-muted);
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+
+.pill {
+    border-radius: 999px;
+}
+
+/* ------------------ Responsive ------------------ */
+
+@media (max-width: 900px) {
+    .navbar {
+        padding: 0.55rem 1.2rem;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card {
+        border-radius: var(--radius-lg);
+        padding: 0.9rem 1rem;
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .matches-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .chat-message {
+        max-width: 88%;
+    }
+}
+
+/* add these rules to your global CSS (apple-theme.css or styles.css) */
+
+/* ---- Navbar layout ---- */
+.layout-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  backdrop-filter: blur(8px);
+  background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.35));
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.layout-navbar .layout-navbar-inner,
+.layout-navbar .layout-navbar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* brand */
+.brand-link { display:flex; align-items:center; gap:0.7rem; text-decoration:none; color: #ffffff; }
+.brand-badge {
+  width: 40px; height:40px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; color:#fff;
+  background: linear-gradient(180deg,#375ad6,#7b5cf6);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.brand-title { font-size: 1.05rem; font-weight:700; letter-spacing: -0.01em; }
+
+/* center nav icon strip */
+.nav-center { display:flex; gap:0.6rem; align-items:center; }
+.nav-actions { display:flex; gap:0.6rem; align-items:center; }
+
+/* icon button */
+.ui-icon-btn, .ui-icon-link > .ui-icon-btn {
+  width:46px; height:46px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 10px 24px rgba(4,8,18,0.6), 
+              inset 0 1px 0 rgba(255,255,255,0.03);
+  color: #cfe1ff;
+  transition: transform .14s ease, background .12s ease, box-shadow .12s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+.ui-icon-btn:hover { transform: translateY(-3px) scale(1.02); color: #fff; box-shadow: 0 16px 40px rgba(0,0,0,0.65); }
+
+/* make svg stroke lighten */
+.ui-icon-btn svg { color: #dbe9ff; }
+
+/* avatar pill */
+.avatar-pill {
+  width:40px; height:40px; border-radius:999px;
+  display:flex; align-items:center; justify-content:center;
+  background: radial-gradient(circle at 20% 20%, #7b5cf6, #375ad6);
+  color:white; font-weight:600; box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+
+/* login hero and form centering */
+.site-shell { min-height: 100vh; background: radial-gradient(circle at 20% 35%, #071028 0%, #020205 60%); color: #fff; }
+.site-main.full-bleed { padding: 0; }
+/* ---------- Login page layout helpers ---------- */
+
+/* ---------- Login centering & background helpers ---------- */
+.login-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+
+  /* Primary centering strategy */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Grid fallback in case extra wrapper exists in DOM */
+  /* (keeps centering working even if the React tree has an extra <div>) */
+  /* You can keep both; grid doesn't hurt when flex is applied to same element. */
+  display: grid;
+  place-items: center;
+}
+
+.login-hero .bg-canvas,
+.login-hero canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.login-form-wrap {
+  /* card sizing */
+  width: 100%;
+  max-width: 480px;
+  z-index: 20;
+  margin: 0;               /* no auto needed (parent centers children) */
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+/* the LoginForm root card */
+.login-form-wrap > .glass-card,
+.login-form-wrap > .login-card,
+.login-form-wrap > .w-full {
+  /* make sure the card foreground sits above background, consistent padding and visual */
+  position: relative;
+  z-index: 21;
+}
+
+/* responsive tweaks */
+@media (max-width: 540px) {
+  .login-form-wrap {
+    padding: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+}
+
+
+
+
+/* tweak LoginForm container if needed (matching earlier style) */
+.w-full.max-w-sm {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border-radius: 18px;
+  padding: 2rem;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 10px 40px rgba(2,6,15,0.7);
+}
+
+/* responsive small screens */
+@media (max-width: 880px) {
+  .nav-center { display:none; } /* hide center nav on small */
+  .layout-navbar .layout-navbar-inner { padding: 0.5rem 0.9rem; }
+  .login-form-wrap { margin-top: 6vh; width: calc(100% - 32px); margin-left: 16px; margin-right: 16px; }
+}

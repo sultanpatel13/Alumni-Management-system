@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My Profile</h2>
+
+<div class="card mt-3">
+  <div class="card-body">
+    <h4 class="card-title">{{ user.name }}</h4>
+    <p class="card-text">
+      <strong>Email:</strong> {{ user.email }}<br>
+      <strong>Role:</strong> {{ user.role|title }}<br>
+      <strong>Skills:</strong> {{ user.skills }}<br>
+      {% if user.career_interests %}
+        <strong>Career Interests:</strong> {{ user.career_interests }}<br>
+      {% endif %}
+      {% if user.industry %}
+        <strong>Industry:</strong> {{ user.industry }}<br>
+      {% endif %}
+      {% if user.years_experience is not none %}
+        <strong>Years of Experience:</strong> {{ user.years_experience }}<br>
+      {% endif %}
+      {% if user.current_company %}
+        <strong>Current Company:</strong> {{ user.current_company }}<br>
+      {% endif %}
+      {% if user.education %}
+        <strong>Education:</strong> {{ user.education }}<br>
+      {% endif %}
+      {% if user.bio %}
+        <strong>Bio:</strong> {{ user.bio }}<br>
+      {% endif %}
+      {% if user.location_city or user.location_state or user.location_country %}
+        <strong>Location:</strong>
+        {{ user.location_city }}{% if user.location_city and (user.location_state or user.location_country) %}, {% endif %}
+        {{ user.location_state }}{% if user.location_state and user.location_country %}, {% endif %}
+        {{ user.location_country }}<br>
+      {% endif %}
+      {% if user.mentoring_preference %}
+        <strong>Mentoring Preference:</strong> {{ user.mentoring_preference|title }}<br>
+      {% endif %}
+    </p>
+    <a href="{{ url_for('edit_profile') }}" class="btn btn-primary">Edit Profile</a>
+  </div>
+</div>
+{% endblock %}

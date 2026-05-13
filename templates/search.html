@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Search People</h2>
+  <form method="get" class="row g-2 mb-3">
+    <div class="col-md-3"><input name="name" class="form-control" placeholder="Name" value="{{ name_q }}"></div>
+    <div class="col-md-2">
+      <select name="role" class="form-select">
+        <option value="">Any role</option>
+        <option value="student" {% if role_q == 'student' %}selected{% endif %}>Student</option>
+        <option value="alumni" {% if role_q == 'alumni' %}selected{% endif %}>Alumni</option>
+      </select>
+    </div>
+    <div class="col-md-2"><input name="skills" class="form-control" placeholder="Skills" value="{{ skills_q }}"></div>
+    <div class="col-md-2"><input name="industry" class="form-control" placeholder="Industry" value="{{ industry_q }}"></div>
+    <div class="col-md-2"><input name="location" class="form-control" placeholder="Location" value="{{ location_q }}"></div>
+    <div class="col-md-1"><button class="btn btn-primary w-100">Search</button></div>
+  </form>
+
+  {% if users %}
+    <div class="list-group">
+      {% for u in users %}
+        <div class="list-group-item d-flex justify-content-between align-items-start">
+          <div>
+            <h5 class="mb-1">{{ u.name }} <small class="text-muted">({{ u.role }})</small></h5>
+            <p class="mb-1">{{ u.skills }}</p>
+            <small class="text-muted">{{ u.industry or 'No industry set' }} | {{ u.location_city or '' }} {{ u.location_state or '' }} {{ u.location_country or '' }}</small>
+          </div>
+          <div>
+            <form action="{{ url_for('send_connection_request', user_id=u.id) }}" method="post">
+              <button class="btn btn-sm btn-outline-primary">Connect</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-secondary">No users found.</div>
+  {% endif %}
+</div>
+{% endblock %}
